@@ -4,6 +4,16 @@ const forgot = require('../Models/otpSchema');
 const nodemailer = require('nodemailer')
 require('dotenv').config()
 
+const cloudinary = require('cloudinary').v2
+
+
+cloudinary.config({ 
+    cloud_name:process.env.Cloud_Name, 
+    api_key:process.env.API_Key, 
+    api_secret:process.env.API_Secret
+});
+
+
 
 const transporter = nodemailer.createTransport({
     Service: "gmail",
@@ -17,8 +27,12 @@ const postData = async (req, res) => {
     console.log(req.body);
     req.body.password = await argon.hash(req.body.password);
 
+    const hostedImage = await cloudinary.uploader.upload(req.file.path)
+    console.log('hosted image:',hostedImage);
+    
+
     try {
-        await user.create(req.body);
+        await user.create({image:hostedImage.secure_url,...req.body});
         return res.status(200).json({ status: "success" });
     } catch (err) {
         return res.status(500).json({ status: "failed" });

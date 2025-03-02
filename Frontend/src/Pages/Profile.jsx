@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfileData, removeProfile, updateProfile } from "../Api";
 import { clearUser } from "../Redux/AuthSlice";
+import Header from "../Components/Header";
 
 const Container = styled.div`
   width: 350px;
@@ -68,8 +69,10 @@ function Profile() {
   }
 
   return (
+    <>
+    <Header/>
     <Container>
-      <div className="card">
+    <div className="card">
         <div className="card-body">
           {isEditing ? (
             <>
@@ -98,6 +101,7 @@ function Profile() {
             </>
           ) : (
             <>
+              <img width="250px" height="250px" src={profile?.image} alt="" />
               <h5 className="card-title">{profile?.name || "Loading..."}</h5>
               <p className="card-text">{profile?.email || "Loading..."}</p>
               <ButtonContainer>
@@ -113,6 +117,7 @@ function Profile() {
         </div>
       </div>
     </Container>
+    </>
   );
 }
 

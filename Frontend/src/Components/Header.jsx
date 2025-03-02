@@ -22,7 +22,7 @@ const Button = styled.button`
     align-items: center;
 `
 
-function Header({update,log,home}) {
+function Header({log,home}) {
 
   const dispatch = useDispatch()
 
